@@ -1,85 +1,60 @@
 
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { Link, useLocation } from 'react-router-dom';
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
-import { Bell, User, Settings, Search } from 'lucide-react';
-import {
-  DropdownMenu,
-  DropdownMenuContent,
-  DropdownMenuItem,
-  DropdownMenuTrigger,
-} from '@/components/ui/dropdown-menu';
+import { ShoppingCart, User, Search, Menu, X } from 'lucide-react';
 
 interface NavbarProps {
+  scrolled?: boolean;
   userRole?: 'customer' | 'vendor' | 'admin' | null;
   userName?: string;
+  cartItems?: number;
 }
 
-const Navbar = ({ userRole = null, userName }: NavbarProps) => {
+const Navbar = ({ scrolled = false, userRole = null, userName, cartItems = 0 }: NavbarProps) => {
   const location = useLocation();
-  const [notifications] = useState(3);
+  const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
 
   const isActive = (path: string) => location.pathname === path;
 
-  const getNavItems = () => {
-    if (!userRole) {
-      return [
-        { name: 'Home', path: '/' },
-        { name: 'Products', path: '/products' },
-        { name: 'About', path: '/about' },
-      ];
-    }
-
-    switch (userRole) {
-      case 'customer':
-        return [
-          { name: 'Products', path: '/products' },
-          { name: 'Orders', path: '/orders' },
-          { name: 'Reviews', path: '/reviews' },
-        ];
-      case 'vendor':
-        return [
-          { name: 'Dashboard', path: '/vendor/dashboard' },
-          { name: 'Products', path: '/vendor/products' },
-          { name: 'Analytics', path: '/vendor/analytics' },
-        ];
-      case 'admin':
-        return [
-          { name: 'Dashboard', path: '/admin/dashboard' },
-          { name: 'Reviews', path: '/admin/reviews' },
-          { name: 'Users', path: '/admin/users' },
-        ];
-      default:
-        return [];
-    }
-  };
+  const navItems = [
+    { name: 'Home', path: '/' },
+    { name: 'Categories', path: '/categories' },
+    { name: 'Deals', path: '/deals' },
+    { name: 'About', path: '/about' },
+  ];
 
   return (
-    <nav className="glass-effect border-b border-border/50 sticky top-0 z-50">
+    <nav className={`fixed top-0 w-full z-50 transition-all duration-300 ${
+      scrolled 
+        ? 'bg-black/95 backdrop-blur-md border-b border-gray-800/50' 
+        : 'bg-transparent'
+    }`}>
       <div className="container mx-auto px-6 py-4">
         <div className="flex items-center justify-between">
           {/* Logo */}
-          <Link to="/" className="flex items-center space-x-2">
-            <div className="w-8 h-8 bg-gradient-to-br from-primary to-secondary rounded-lg flex items-center justify-center">
-              <span className="text-white font-bold text-sm">AI</span>
+          <Link to="/" className="flex items-center space-x-3">
+            <div className="w-10 h-10 bg-gradient-to-br from-green-500 to-green-400 rounded-xl flex items-center justify-center">
+              <span className="text-black font-bold text-lg">D</span>
             </div>
-            <span className="font-sora font-bold text-xl text-gradient">
-              TrustMarket
+            <span className="font-bold text-2xl bg-gradient-to-r from-white to-green-400 bg-clip-text text-transparent">
+              DigitalStore
             </span>
           </Link>
 
-          {/* Navigation Items */}
+          {/* Desktop Navigation */}
           <div className="hidden md:flex items-center space-x-8">
-            {getNavItems().map((item) => (
+            {navItems.map((item) => (
               <Link
                 key={item.path}
                 to={item.path}
-                className={`text-sm font-medium transition-colors hover:text-primary ${
-                  isActive(item.path) ? 'text-primary' : 'text-muted-foreground'
+                className={`text-sm font-medium transition-all duration-300 hover:text-green-400 relative group ${
+                  isActive(item.path) ? 'text-green-400' : 'text-gray-300'
                 }`}
               >
                 {item.name}
+                <span className="absolute -bottom-1 left-0 w-0 h-0.5 bg-green-400 transition-all duration-300 group-hover:w-full"></span>
               </Link>
             ))}
           </div>
@@ -87,65 +62,94 @@ const Navbar = ({ userRole = null, userName }: NavbarProps) => {
           {/* Right Side */}
           <div className="flex items-center space-x-4">
             {/* Search */}
-            <Button variant="ghost" size="sm" className="hidden md:flex">
-              <Search className="h-4 w-4" />
+            <Button 
+              variant="ghost" 
+              size="sm" 
+              className="hidden md:flex text-gray-300 hover:text-green-400 hover:bg-green-500/10"
+            >
+              <Search className="h-5 w-5" />
+            </Button>
+
+            {/* Cart */}
+            <Button 
+              variant="ghost" 
+              size="sm" 
+              className="relative text-gray-300 hover:text-green-400 hover:bg-green-500/10 transition-all duration-300 hover:shadow-[0_0_20px_rgba(34,197,94,0.3)]"
+            >
+              <ShoppingCart className="h-5 w-5" />
+              {cartItems > 0 && (
+                <Badge className="absolute -top-2 -right-2 h-5 w-5 rounded-full bg-green-500 text-black text-xs p-0 flex items-center justify-center animate-pulse">
+                  {cartItems}
+                </Badge>
+              )}
             </Button>
 
             {userRole ? (
-              <>
-                {/* Notifications */}
-                <Button variant="ghost" size="sm" className="relative">
-                  <Bell className="h-4 w-4" />
-                  {notifications > 0 && (
-                    <Badge className="absolute -top-1 -right-1 h-5 w-5 rounded-full bg-destructive text-xs p-0 flex items-center justify-center">
-                      {notifications}
-                    </Badge>
-                  )}
-                </Button>
-
-                {/* Profile Dropdown */}
-                <DropdownMenu>
-                  <DropdownMenuTrigger asChild>
-                    <Button variant="ghost" className="flex items-center space-x-2">
-                      <div className="w-8 h-8 bg-primary/20 rounded-full flex items-center justify-center">
-                        <User className="h-4 w-4" />
-                      </div>
-                      <span className="hidden md:block text-sm font-medium">
-                        {userName || 'User'}
-                      </span>
-                    </Button>
-                  </DropdownMenuTrigger>
-                  <DropdownMenuContent align="end" className="w-48">
-                    <DropdownMenuItem>
-                      <User className="mr-2 h-4 w-4" />
-                      Profile
-                    </DropdownMenuItem>
-                    <DropdownMenuItem>
-                      <Settings className="mr-2 h-4 w-4" />
-                      Settings
-                    </DropdownMenuItem>
-                    <DropdownMenuItem className="text-destructive">
-                      Logout
-                    </DropdownMenuItem>
-                  </DropdownMenuContent>
-                </DropdownMenu>
-              </>
+              /* Profile Dropdown */
+              <Button 
+                variant="ghost" 
+                className="flex items-center space-x-2 text-gray-300 hover:text-green-400 hover:bg-green-500/10"
+              >
+                <div className="w-8 h-8 bg-gradient-to-br from-green-500 to-green-400 rounded-full flex items-center justify-center">
+                  <User className="h-4 w-4 text-black" />
+                </div>
+                <span className="hidden md:block text-sm font-medium">
+                  {userName || 'User'}
+                </span>
+              </Button>
             ) : (
-              <div className="flex items-center space-x-2">
+              <div className="flex items-center space-x-3">
                 <Link to="/login">
-                  <Button variant="ghost" size="sm">
+                  <Button 
+                    variant="ghost" 
+                    size="sm"
+                    className="text-gray-300 hover:text-green-400 hover:bg-green-500/10"
+                  >
                     Login
                   </Button>
                 </Link>
                 <Link to="/register">
-                  <Button size="sm" className="bg-primary hover:bg-primary/90">
-                    Get Started
+                  <Button 
+                    size="sm" 
+                    className="bg-green-500 hover:bg-green-400 text-black font-semibold transition-all duration-300 hover:shadow-[0_0_20px_rgba(34,197,94,0.4)] hover:scale-105"
+                  >
+                    Sign Up
                   </Button>
                 </Link>
               </div>
             )}
+
+            {/* Mobile Menu Button */}
+            <Button
+              variant="ghost"
+              size="sm"
+              className="md:hidden text-gray-300 hover:text-green-400"
+              onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
+            >
+              {mobileMenuOpen ? <X className="h-5 w-5" /> : <Menu className="h-5 w-5" />}
+            </Button>
           </div>
         </div>
+
+        {/* Mobile Menu */}
+        {mobileMenuOpen && (
+          <div className="md:hidden mt-4 py-4 border-t border-gray-800/50 animate-fade-in">
+            <div className="flex flex-col space-y-4">
+              {navItems.map((item) => (
+                <Link
+                  key={item.path}
+                  to={item.path}
+                  className={`text-sm font-medium transition-colors hover:text-green-400 ${
+                    isActive(item.path) ? 'text-green-400' : 'text-gray-300'
+                  }`}
+                  onClick={() => setMobileMenuOpen(false)}
+                >
+                  {item.name}
+                </Link>
+              ))}
+            </div>
+          </div>
+        )}
       </div>
     </nav>
   );
