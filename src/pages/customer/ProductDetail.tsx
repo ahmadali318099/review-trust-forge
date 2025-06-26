@@ -1,4 +1,3 @@
-
 import { useState } from 'react';
 import { useParams } from 'react-router-dom';
 import Layout from '@/components/Layout';
@@ -7,12 +6,16 @@ import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
 import { Textarea } from '@/components/ui/textarea';
 import { Star, ShoppingCart, Download, Shield, Clock, Users, CheckCircle, AlertCircle } from 'lucide-react';
+import { useCart } from '@/components/CartContext';
+import { toast } from '@/hooks/use-toast';
 
 const ProductDetail = () => {
   const { id } = useParams();
   const [activeTab, setActiveTab] = useState('overview');
   const [reviewText, setReviewText] = useState('');
   const [rating, setRating] = useState(0);
+  const [quantity, setQuantity] = useState(1);
+  const { addToCart } = useCart();
 
   const product = {
     id: 1,
@@ -23,6 +26,7 @@ const ProductDetail = () => {
     reviews: 2847,
     instructor: 'John Smith',
     category: 'Course',
+    image: 'https://images.unsplash.com/photo-1461749280684-dccba630e2f6?w=800&h=400&fit=crop',
     description: 'Master modern web development with React, Node.js, MongoDB, and more. This comprehensive course covers everything from HTML/CSS basics to advanced full-stack development.',
     features: [
       '40+ hours of video content',
@@ -72,8 +76,25 @@ const ProductDetail = () => {
     { id: 'instructor', label: 'Instructor' }
   ];
 
+  const handleAddToCart = () => {
+    for (let i = 0; i < quantity; i++) {
+      addToCart({
+        id: product.id,
+        title: product.title,
+        price: product.price,
+        category: product.category.toLowerCase(),
+        image: product.image
+      });
+    }
+    
+    toast({
+      title: "Added to cart!",
+      description: `${quantity}x ${product.title} added to your cart.`,
+    });
+  };
+
   return (
-    <Layout userRole="customer" userName="John Doe" cartItems={3}>
+    <Layout userRole="customer" userName="John Doe">
       <div className="container mx-auto px-6 py-8">
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
           {/* Main Content */}
@@ -115,10 +136,12 @@ const ProductDetail = () => {
             </div>
 
             {/* Product Image */}
-            <div className="h-64 bg-gradient-to-br from-gray-800 to-gray-900 rounded-2xl mb-8 flex items-center justify-center">
-              <div className="text-green-400">
-                <Download className="h-16 w-16" />
-              </div>
+            <div className="h-64 bg-gradient-to-br from-gray-800 to-gray-900 rounded-2xl mb-8 overflow-hidden">
+              <img 
+                src={product.image} 
+                alt={product.title}
+                className="w-full h-full object-cover"
+              />
             </div>
 
             {/* Tabs */}
@@ -313,10 +336,37 @@ const ProductDetail = () => {
                   )}
                 </div>
 
+                {/* Quantity Selector */}
+                <div className="flex items-center justify-center space-x-4 mb-6">
+                  <span className="text-gray-300">Quantity:</span>
+                  <div className="flex items-center space-x-2">
+                    <Button
+                      variant="outline"
+                      size="sm"
+                      className="h-8 w-8 p-0 border-gray-600"
+                      onClick={() => setQuantity(Math.max(1, quantity - 1))}
+                    >
+                      -
+                    </Button>
+                    <span className="text-white font-medium w-8 text-center">{quantity}</span>
+                    <Button
+                      variant="outline"
+                      size="sm"
+                      className="h-8 w-8 p-0 border-gray-600"
+                      onClick={() => setQuantity(quantity + 1)}
+                    >
+                      +
+                    </Button>
+                  </div>
+                </div>
+
                 <div className="space-y-3 mb-6">
-                  <Button className="w-full bg-green-500 hover:bg-green-400 text-black font-semibold py-3">
+                  <Button 
+                    className="w-full bg-green-500 hover:bg-green-400 text-black font-semibold py-3 transition-all duration-300 hover:scale-105"
+                    onClick={handleAddToCart}
+                  >
                     <ShoppingCart className="h-5 w-5 mr-2" />
-                    Add to Cart
+                    Add to Cart - ${(product.price * quantity).toFixed(2)}
                   </Button>
                   <Button variant="outline" className="w-full border-green-500/30 text-green-400 hover:bg-green-500/10">
                     Buy Now

@@ -1,4 +1,3 @@
-
 import { useState } from 'react';
 import Layout from '@/components/Layout';
 import { Card, CardContent } from '@/components/ui/card';
@@ -8,11 +7,14 @@ import { Badge } from '@/components/ui/badge';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { Search, Filter, Star, ShoppingCart, BookOpen, Code, Palette, Briefcase } from 'lucide-react';
 import { Link } from 'react-router-dom';
+import { useCart } from '@/components/CartContext';
+import { toast } from '@/hooks/use-toast';
 
 const ProductListing = () => {
   const [searchTerm, setSearchTerm] = useState('');
   const [selectedCategory, setSelectedCategory] = useState('all');
   const [priceRange, setPriceRange] = useState('all');
+  const { addToCart } = useCart();
 
   const categories = [
     { id: 'all', name: 'All Categories', icon: Filter },
@@ -31,7 +33,7 @@ const ProductListing = () => {
       originalPrice: 199,
       rating: 4.9,
       reviews: 2847,
-      image: '/placeholder.svg',
+      image: 'https://images.unsplash.com/photo-1461749280684-dccba630e2f6?w=400&h=300&fit=crop',
       instructor: 'John Smith',
       description: 'Master modern web development with React, Node.js, and more',
       popular: true,
@@ -45,7 +47,7 @@ const ProductListing = () => {
       originalPrice: 49,
       rating: 4.8,
       reviews: 1523,
-      image: '/placeholder.svg',
+      image: 'https://images.unsplash.com/photo-1460925895917-afdab827c52f?w=400&h=300&fit=crop',
       instructor: 'Sarah Johnson',
       description: 'Complete guide to digital marketing strategies and tactics'
     },
@@ -57,7 +59,7 @@ const ProductListing = () => {
       originalPrice: 299,
       rating: 4.9,
       reviews: 967,
-      image: '/placeholder.svg',
+      image: 'https://images.unsplash.com/photo-1581091226825-a6a2a5aee158?w=400&h=300&fit=crop',
       instructor: 'Design Pro',
       description: 'Professional design assets, templates, and resources'
     },
@@ -69,7 +71,7 @@ const ProductListing = () => {
       originalPrice: 120,
       rating: 4.7,
       reviews: 642,
-      image: '/placeholder.svg',
+      image: 'https://images.unsplash.com/photo-1454165804606-c3d57bc86b40?w=400&h=300&fit=crop',
       instructor: 'Legal Corp',
       description: 'Legal templates and documents for business operations'
     },
@@ -81,7 +83,7 @@ const ProductListing = () => {
       originalPrice: 179,
       rating: 4.8,
       reviews: 1856,
-      image: '/placeholder.svg',
+      image: 'https://images.unsplash.com/photo-1518770660439-4636190af475?w=400&h=300&fit=crop',
       instructor: 'Tech Academy',
       description: 'Learn Python from basics to advanced concepts'
     },
@@ -93,7 +95,7 @@ const ProductListing = () => {
       originalPrice: 69,
       rating: 4.6,
       reviews: 892,
-      image: '/placeholder.svg',
+      image: 'https://images.unsplash.com/photo-1640340434855-6084b1f4901c?w=400&h=300&fit=crop',
       instructor: 'Crypto Expert',
       description: 'Master cryptocurrency trading strategies and analysis'
     }
@@ -111,8 +113,23 @@ const ProductListing = () => {
     return matchesSearch && matchesCategory && matchesPrice;
   });
 
+  const handleAddToCart = (product: typeof products[0]) => {
+    addToCart({
+      id: product.id,
+      title: product.title,
+      price: product.price,
+      category: product.category,
+      image: product.image
+    });
+    
+    toast({
+      title: "Added to cart!",
+      description: `${product.title} has been added to your cart.`,
+    });
+  };
+
   return (
-    <Layout userRole="customer" userName="John Doe" cartItems={3}>
+    <Layout userRole="customer" userName="John Doe">
       <div className="container mx-auto px-6 py-8">
         {/* Header */}
         <div className="mb-8">
@@ -188,13 +205,12 @@ const ProductListing = () => {
                     Verified
                   </Badge>
                 )}
-                <div className="h-48 bg-gradient-to-br from-gray-800 to-gray-900 flex items-center justify-center">
-                  <div className="text-green-400 group-hover:scale-110 transition-transform duration-300">
-                    {product.category === 'courses' && <Code className="h-12 w-12" />}
-                    {product.category === 'ebooks' && <BookOpen className="h-12 w-12" />}
-                    {product.category === 'tools' && <Palette className="h-12 w-12" />}
-                    {product.category === 'licenses' && <Briefcase className="h-12 w-12" />}
-                  </div>
+                <div className="h-48 overflow-hidden">
+                  <img 
+                    src={product.image} 
+                    alt={product.title}
+                    className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-300"
+                  />
                 </div>
               </div>
               
@@ -246,7 +262,8 @@ const ProductListing = () => {
                     </Link>
                     <Button 
                       size="sm" 
-                      className="bg-green-500 hover:bg-green-400 text-black"
+                      className="bg-green-500 hover:bg-green-400 text-black transition-all duration-300 hover:scale-105"
+                      onClick={() => handleAddToCart(product)}
                     >
                       <ShoppingCart className="h-4 w-4 mr-1" />
                       Add

@@ -1,9 +1,9 @@
-
 import { useState, useEffect } from 'react';
 import { Link, useLocation } from 'react-router-dom';
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
 import { ShoppingCart, User, Search, Menu, X } from 'lucide-react';
+import CartDropdown from './CartDropdown';
 
 interface NavbarProps {
   scrolled?: boolean;
@@ -20,9 +20,10 @@ const Navbar = ({ scrolled = false, userRole = null, userName, cartItems = 0 }: 
 
   const navItems = [
     { name: 'Home', path: '/' },
-    { name: 'Categories', path: '/categories' },
-    { name: 'How It Works', path: '/how-it-works' },
+    { name: 'Products', path: '/products' },
     { name: 'About', path: '/about' },
+    { name: 'Contact', path: '/contact' },
+    { name: 'FAQ', path: '/faq' },
   ];
 
   return (
@@ -71,18 +72,7 @@ const Navbar = ({ scrolled = false, userRole = null, userName, cartItems = 0 }: 
             </Button>
 
             {/* Cart */}
-            <Button 
-              variant="ghost" 
-              size="sm" 
-              className="relative text-gray-300 hover:text-green-400 hover:bg-green-500/10 transition-all duration-300 hover:shadow-[0_0_20px_rgba(34,197,94,0.3)]"
-            >
-              <ShoppingCart className="h-5 w-5" />
-              {cartItems > 0 && (
-                <Badge className="absolute -top-2 -right-2 h-5 w-5 rounded-full bg-green-500 text-black text-xs p-0 flex items-center justify-center animate-pulse">
-                  {cartItems}
-                </Badge>
-              )}
-            </Button>
+            <CartDropdown />
 
             {userRole ? (
               /* Profile Dropdown */

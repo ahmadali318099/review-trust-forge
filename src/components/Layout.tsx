@@ -7,7 +7,6 @@ interface LayoutProps {
   children: ReactNode;
   userRole?: 'customer' | 'vendor' | 'admin' | null;
   userName?: string;
-  cartItems?: number;
   showNavbar?: boolean;
   showFooter?: boolean;
 }
@@ -16,7 +15,6 @@ const Layout = ({
   children, 
   userRole = null, 
   userName, 
-  cartItems = 0,
   showNavbar = true,
   showFooter = true 
 }: LayoutProps) => {
@@ -26,7 +24,6 @@ const Layout = ({
         <Navbar 
           userRole={userRole} 
           userName={userName}
-          cartItems={cartItems}
         />
       )}
       <main className="flex-1 pt-20">
