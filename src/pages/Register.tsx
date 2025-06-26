@@ -18,23 +18,23 @@ const Register = () => {
     customer: {
       icon: <User className="h-4 w-4" />,
       title: 'Customer Registration',
-      description: 'Start shopping with verified reviews and trusted vendors',
+      description: 'Join the trusted community with verified reviews and authentic ratings',
       color: 'from-blue-500 to-blue-400'
     },
     vendor: {
       icon: <Settings className="h-4 w-4" />,
       title: 'Vendor Registration',
-      description: 'Sell your products with AI-powered review authentication',
+      description: 'Sell your products with AI-powered fake review protection',
       color: 'from-primary to-primary/80'
     }
   };
 
   const benefits = [
     'AI-powered fake review detection',
-    'Real-time analytics dashboard',
-    'Verified customer reviews',
-    '24/7 fraud monitoring',
-    'Advanced seller tools'
+    'Real-time fraud monitoring',
+    'Verified customer authentication',
+    '99.2% detection accuracy',
+    'Trusted seller protection'
   ];
 
   return (
@@ -56,10 +56,10 @@ const Register = () => {
               </Link>
               
               <h1 className="text-4xl md:text-5xl font-sora font-bold mb-4 text-gradient">
-                Join the Future of E-commerce
+                Join the Trust Revolution
               </h1>
               <p className="text-xl text-muted-foreground mb-8">
-                Experience authentic reviews and genuine customer trust with our AI-powered platform.
+                Experience the future of e-commerce with AI-powered review authentication and verified customer trust.
               </p>
             </div>
 
@@ -77,11 +77,11 @@ const Register = () => {
             <div className="grid grid-cols-2 gap-4">
               <div className="text-center">
                 <div className="text-2xl font-bold text-gradient">99.2%</div>
-                <div className="text-sm text-muted-foreground">Detection Accuracy</div>
+                <div className="text-sm text-muted-foreground">AI Detection Accuracy</div>
               </div>
               <div className="text-center">
-                <div className="text-2xl font-bold text-gradient">15K+</div>
-                <div className="text-sm text-muted-foreground">Active Vendors</div>
+                <div className="text-2xl font-bold text-gradient">50K+</div>
+                <div className="text-sm text-muted-foreground">Trusted Members</div>
               </div>
             </div>
           </div>
@@ -163,7 +163,7 @@ const Register = () => {
                     </div>
 
                     <Button className="w-full bg-primary hover:bg-primary/90 text-white font-semibold py-3 rounded-xl">
-                      Create Customer Account
+                      Join as Trusted Customer
                     </Button>
                   </form>
                 </TabsContent>
@@ -202,7 +202,7 @@ const Register = () => {
                       <Label htmlFor="businessDescription">Business Description</Label>
                       <Textarea
                         id="businessDescription"
-                        placeholder="Tell us about your business..."
+                        placeholder="Tell us about your business and products..."
                         className="bg-background/50 border-border/50 focus:border-primary resize-none"
                         rows={3}
                       />
@@ -230,7 +230,7 @@ const Register = () => {
                     </div>
 
                     <Button className="w-full bg-primary hover:bg-primary/90 text-white font-semibold py-3 rounded-xl">
-                      Create Vendor Account
+                      Join as Verified Vendor
                     </Button>
                   </form>
                 </TabsContent>
@@ -245,13 +245,13 @@ const Register = () => {
 
               <div className="flex flex-wrap gap-2 pt-4 border-t border-border/50">
                 <Badge variant="secondary" className="text-xs">
-                  Free to Start
+                  AI-Protected
                 </Badge>
                 <Badge variant="outline" className="text-xs">
-                  AI-Powered
+                  Verified Platform
                 </Badge>
                 <Badge className="text-xs bg-secondary/20 text-secondary">
-                  Trusted Platform
+                  Trusted Community
                 </Badge>
               </div>
             </CardContent>
@@ -264,8 +264,8 @@ const Register = () => {
             Terms of Service
           </Link>{' '}
           and{' '}
-          <Link to="/privacy" className="text-primary hover:text-primary/80">
-            Privacy Policy
+          <Link to="/trust-policy" className="text-primary hover:text-primary/80">
+            Trust Policy
           </Link>
         </p>
       </div>

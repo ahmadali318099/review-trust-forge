@@ -21,7 +21,7 @@ const Navbar = ({ scrolled = false, userRole = null, userName, cartItems = 0 }: 
   const navItems = [
     { name: 'Home', path: '/' },
     { name: 'Categories', path: '/categories' },
-    { name: 'Deals', path: '/deals' },
+    { name: 'How It Works', path: '/how-it-works' },
     { name: 'About', path: '/about' },
   ];
 
@@ -36,10 +36,10 @@ const Navbar = ({ scrolled = false, userRole = null, userName, cartItems = 0 }: 
           {/* Logo */}
           <Link to="/" className="flex items-center space-x-3">
             <div className="w-10 h-10 bg-gradient-to-br from-green-500 to-green-400 rounded-xl flex items-center justify-center">
-              <span className="text-black font-bold text-lg">D</span>
+              <span className="text-black font-bold text-lg">AI</span>
             </div>
             <span className="font-bold text-2xl bg-gradient-to-r from-white to-green-400 bg-clip-text text-transparent">
-              DigitalStore
+              TrustMarket
             </span>
           </Link>
 
@@ -113,7 +113,7 @@ const Navbar = ({ scrolled = false, userRole = null, userName, cartItems = 0 }: 
                     size="sm" 
                     className="bg-green-500 hover:bg-green-400 text-black font-semibold transition-all duration-300 hover:shadow-[0_0_20px_rgba(34,197,94,0.4)] hover:scale-105"
                   >
-                    Sign Up
+                    Join Now
                   </Button>
                 </Link>
               </div>

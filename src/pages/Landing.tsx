@@ -4,7 +4,7 @@ import { Link } from 'react-router-dom';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
-import { ShoppingCart, Download, Zap, Shield, Star, ArrowRight, BookOpen, Code, Palette, Briefcase } from 'lucide-react';
+import { ShoppingCart, Download, Zap, Shield, Star, ArrowRight, BookOpen, Code, Palette, Briefcase, CheckCircle, TrendingUp } from 'lucide-react';
 import Navbar from '@/components/Navbar';
 import Footer from '@/components/Footer';
 
@@ -29,7 +29,8 @@ const Landing = () => {
       reviews: 2847,
       image: '/placeholder.svg',
       icon: <Code className="h-6 w-6" />,
-      popular: true
+      popular: true,
+      verified: true
     },
     {
       id: 2,
@@ -39,7 +40,8 @@ const Landing = () => {
       rating: 4.8,
       reviews: 1523,
       image: '/placeholder.svg',
-      icon: <BookOpen className="h-6 w-6" />
+      icon: <BookOpen className="h-6 w-6" />,
+      verified: true
     },
     {
       id: 3,
@@ -49,7 +51,8 @@ const Landing = () => {
       rating: 4.9,
       reviews: 967,
       image: '/placeholder.svg',
-      icon: <Palette className="h-6 w-6" />
+      icon: <Palette className="h-6 w-6" />,
+      verified: true
     },
     {
       id: 4,
@@ -59,7 +62,8 @@ const Landing = () => {
       rating: 4.7,
       reviews: 642,
       image: '/placeholder.svg',
-      icon: <Briefcase className="h-6 w-6" />
+      icon: <Briefcase className="h-6 w-6" />,
+      verified: true
     }
   ];
 
@@ -73,21 +77,39 @@ const Landing = () => {
   const testimonials = [
     {
       name: 'Sarah Chen',
-      role: 'Entrepreneur',
-      content: 'Amazing digital products that transformed my business. The quality is outstanding!',
+      role: 'Verified Customer',
+      content: 'Finally, a platform where I can trust the reviews! The AI detection gives me confidence in every purchase.',
       rating: 5
     },
     {
       name: 'Marcus Rodriguez',
-      role: 'Developer',
-      content: 'Best platform for digital resources. Everything I need in one place.',
+      role: 'Vendor',
+      content: 'As a seller, I love that genuine reviews are protected. My authentic customers get heard!',
       rating: 5
     },
     {
       name: 'Emily Johnson',
-      role: 'Designer',
-      content: 'Incredible selection and instant downloads. Highly recommended!',
+      role: 'Verified Customer',
+      content: 'No more fake reviews misleading me. This platform has revolutionized my online shopping experience.',
       rating: 5
+    }
+  ];
+
+  const features = [
+    {
+      icon: <Shield className="h-12 w-12" />,
+      title: 'AI-Powered Detection',
+      description: '99.2% accuracy in identifying fake reviews using advanced machine learning algorithms'
+    },
+    {
+      icon: <CheckCircle className="h-12 w-12" />,
+      title: 'Verified Reviews Only',
+      description: 'Every review is authenticated and verified before appearing on product pages'
+    },
+    {
+      icon: <TrendingUp className="h-12 w-12" />,
+      title: 'Real-Time Monitoring',
+      description: 'Continuous monitoring and instant removal of suspicious review patterns'
     }
   ];
 
@@ -107,7 +129,7 @@ const Landing = () => {
         <div className="container mx-auto px-6 text-center relative z-10">
           <div className="max-w-5xl mx-auto animate-fade-in">
             <Badge className="mb-8 bg-green-500/20 text-green-400 border-green-500/30 text-lg px-6 py-2 animate-scale-in">
-              ⚡ Digital Products Store
+              🛡️ AI-Powered Review Authentication
             </Badge>
             
             <h1 className="text-6xl md:text-8xl font-bold mb-6 leading-tight">
@@ -116,14 +138,14 @@ const Landing = () => {
               </span>
               <br />
               <span className="bg-gradient-to-r from-green-400 to-green-500 bg-clip-text text-transparent">
-                Shop Digital.
+                Trust Verified.
               </span>
             </h1>
             
             <p className="text-xl md:text-2xl text-gray-300 mb-12 max-w-3xl mx-auto leading-relaxed">
-              Discover premium eBooks, online courses, software licenses, and digital tools
+              The world's first AI-powered e-commerce platform that detects and eliminates fake reviews
               <br />
-              <span className="text-green-400">Instant downloads. Lifetime access.</span>
+              <span className="text-green-400">Authentic reviews. Genuine trust. Better decisions.</span>
             </p>
             
             <div className="flex flex-col sm:flex-row gap-6 justify-center items-center">
@@ -132,7 +154,7 @@ const Landing = () => {
                   size="lg" 
                   className="bg-green-500 hover:bg-green-400 text-black px-12 py-4 text-lg font-bold rounded-2xl transition-all duration-300 hover:shadow-[0_0_30px_rgba(34,197,94,0.5)] hover:scale-105 animate-scale-in"
                 >
-                  Explore Products
+                  Shop with Confidence
                   <ArrowRight className="ml-2 h-5 w-5" />
                 </Button>
               </Link>
@@ -142,10 +164,48 @@ const Landing = () => {
                   size="lg" 
                   className="border-2 border-white/30 text-white hover:bg-white/10 px-12 py-4 text-lg font-semibold rounded-2xl transition-all duration-300 hover:shadow-[0_0_20px_rgba(255,255,255,0.2)] hover:scale-105 animate-scale-in delay-200"
                 >
-                  View Categories
+                  See How It Works
                 </Button>
               </Link>
             </div>
+          </div>
+        </div>
+      </section>
+
+      {/* AI Features Section */}
+      <section className="py-20 relative">
+        <div className="container mx-auto px-6">
+          <div className="text-center mb-16">
+            <h2 className="text-4xl md:text-5xl font-bold mb-6">
+              <span className="bg-gradient-to-r from-white to-green-400 bg-clip-text text-transparent">
+                AI-Powered Trust
+              </span>
+            </h2>
+            <p className="text-xl text-gray-400 max-w-2xl mx-auto">
+              Advanced machine learning algorithms ensure every review is authentic
+            </p>
+          </div>
+          
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+            {features.map((feature, index) => (
+              <Card 
+                key={index} 
+                className="bg-gray-900/50 border-gray-800 hover:border-green-500/50 transition-all duration-300 group hover:shadow-[0_0_30px_rgba(34,197,94,0.2)] cursor-pointer animate-fade-in" 
+                style={{ animationDelay: `${index * 0.1}s` }}
+              >
+                <CardContent className="p-8 text-center">
+                  <div className="text-green-400 mb-6 group-hover:scale-110 transition-transform duration-300 flex justify-center">
+                    {feature.icon}
+                  </div>
+                  <h3 className="text-xl font-semibold mb-4 text-white">
+                    {feature.title}
+                  </h3>
+                  <p className="text-gray-400 leading-relaxed">
+                    {feature.description}
+                  </p>
+                </CardContent>
+              </Card>
+            ))}
           </div>
         </div>
       </section>
@@ -156,11 +216,11 @@ const Landing = () => {
           <div className="text-center mb-16">
             <h2 className="text-4xl md:text-5xl font-bold mb-6">
               <span className="bg-gradient-to-r from-white to-green-400 bg-clip-text text-transparent">
-                Browse Categories
+                Verified Product Categories
               </span>
             </h2>
             <p className="text-xl text-gray-400 max-w-2xl mx-auto">
-              Find exactly what you need from our curated collection
+              Every product backed by authenticated reviews and verified ratings
             </p>
           </div>
           
@@ -179,7 +239,7 @@ const Landing = () => {
                     {category.name}
                   </h3>
                   <p className="text-green-400 font-medium">
-                    {category.count} products
+                    {category.count} verified products
                   </p>
                 </CardContent>
               </Card>
@@ -194,11 +254,11 @@ const Landing = () => {
           <div className="text-center mb-16">
             <h2 className="text-4xl md:text-5xl font-bold mb-6">
               <span className="bg-gradient-to-r from-white to-green-400 bg-clip-text text-transparent">
-                Featured Products
+                Verified Products
               </span>
             </h2>
             <p className="text-xl text-gray-400">
-              Top-rated digital products from our community
+              Products with 100% authentic reviews and verified ratings
             </p>
           </div>
           
@@ -210,11 +270,19 @@ const Landing = () => {
                 style={{ animationDelay: `${index * 0.2}s` }}
               >
                 <div className="relative">
-                  {product.popular && (
-                    <Badge className="absolute top-4 left-4 bg-green-500 text-black z-10">
-                      Popular
-                    </Badge>
-                  )}
+                  <div className="flex gap-2 absolute top-4 left-4 z-10">
+                    {product.popular && (
+                      <Badge className="bg-green-500 text-black">
+                        Popular
+                      </Badge>
+                    )}
+                    {product.verified && (
+                      <Badge className="bg-blue-500 text-white">
+                        <Shield className="h-3 w-3 mr-1" />
+                        Verified
+                      </Badge>
+                    )}
+                  </div>
                   <div className="h-48 bg-gradient-to-br from-gray-800 to-gray-900 flex items-center justify-center">
                     <div className="text-green-400 group-hover:scale-110 transition-transform duration-300">
                       {product.icon}
@@ -235,7 +303,7 @@ const Landing = () => {
                     {product.title}
                   </h3>
                   <p className="text-gray-400 text-sm mb-4">
-                    {product.reviews} reviews
+                    {product.reviews} verified reviews
                   </p>
                   <div className="flex items-center justify-between">
                     <span className="text-2xl font-bold text-green-400">
@@ -262,9 +330,12 @@ const Landing = () => {
           <div className="text-center mb-16">
             <h2 className="text-4xl md:text-5xl font-bold mb-6">
               <span className="bg-gradient-to-r from-white to-green-400 bg-clip-text text-transparent">
-                What Our Customers Say
+                Trusted by Real Customers
               </span>
             </h2>
+            <p className="text-xl text-gray-400">
+              Hear from verified customers about their authentic shopping experience
+            </p>
           </div>
           
           <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
@@ -279,6 +350,10 @@ const Landing = () => {
                     {[...Array(testimonial.rating)].map((_, i) => (
                       <Star key={i} className="h-5 w-5 fill-yellow-400 text-yellow-400" />
                     ))}
+                    <Badge className="ml-2 bg-green-500/20 text-green-400 border-green-500/30">
+                      <CheckCircle className="h-3 w-3 mr-1" />
+                      Verified
+                    </Badge>
                   </div>
                   <p className="text-gray-300 mb-6 italic">
                     "{testimonial.content}"
@@ -301,11 +376,11 @@ const Landing = () => {
           <div className="text-center max-w-4xl mx-auto">
             <h2 className="text-4xl md:text-5xl font-bold mb-6">
               <span className="bg-gradient-to-r from-white to-green-400 bg-clip-text text-transparent">
-                Ready to Go Digital?
+                Ready for Authentic Shopping?
               </span>
             </h2>
             <p className="text-xl text-gray-300 mb-12 max-w-2xl mx-auto">
-              Join thousands of satisfied customers who've transformed their digital experience with our premium products.
+              Join thousands of customers who shop with confidence knowing every review is real and every rating is verified.
             </p>
             <div className="flex flex-col sm:flex-row gap-6 justify-center">
               <Link to="/register">
@@ -314,7 +389,7 @@ const Landing = () => {
                   className="bg-green-500 hover:bg-green-400 text-black px-12 py-4 text-lg font-bold rounded-2xl transition-all duration-300 hover:shadow-[0_0_30px_rgba(34,197,94,0.5)] hover:scale-105"
                 >
                   Start Shopping
-                  <Download className="ml-2 h-5 w-5" />
+                  <Shield className="ml-2 h-5 w-5" />
                 </Button>
               </Link>
               <Link to="/contact">
@@ -323,7 +398,7 @@ const Landing = () => {
                   size="lg" 
                   className="border-2 border-green-500/30 text-green-400 hover:bg-green-500/10 px-12 py-4 text-lg font-semibold rounded-2xl transition-all duration-300"
                 >
-                  Contact Support
+                  Learn More
                 </Button>
               </Link>
             </div>

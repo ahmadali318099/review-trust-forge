@@ -17,19 +17,19 @@ const Login = () => {
     customer: {
       icon: <User className="h-4 w-4" />,
       title: 'Customer Login',
-      description: 'Access your orders, reviews, and shopping experience',
+      description: 'Access verified reviews and shop with confidence',
       color: 'from-blue-500 to-blue-400'
     },
     vendor: {
       icon: <Settings className="h-4 w-4" />,
       title: 'Vendor Login',
-      description: 'Manage your products, analytics, and customer reviews',
+      description: 'Manage your products with AI-powered review protection',
       color: 'from-primary to-primary/80'
     },
     admin: {
       icon: <Users className="h-4 w-4" />,
       title: 'Admin Login',
-      description: 'Access admin panel and review moderation tools',
+      description: 'Monitor AI detection and moderate platform trust',
       color: 'from-destructive to-red-400'
     }
   };
@@ -128,17 +128,17 @@ const Login = () => {
             <div className="text-center text-sm text-muted-foreground">
               Don't have an account?{' '}
               <Link to="/register" className="text-primary hover:text-primary/80 font-medium">
-                Sign up
+                Join TrustMarket
               </Link>
             </div>
 
             {/* Demo badges */}
             <div className="flex flex-wrap gap-2 pt-4 border-t border-border/50">
               <Badge variant="secondary" className="text-xs">
-                Demo Available
+                AI-Powered Platform
               </Badge>
               <Badge variant="outline" className="text-xs">
-                AI-Powered
+                Verified Reviews Only
               </Badge>
             </div>
           </CardContent>
@@ -150,8 +150,8 @@ const Login = () => {
             Terms of Service
           </Link>{' '}
           and{' '}
-          <Link to="/privacy" className="text-primary hover:text-primary/80">
-            Privacy Policy
+          <Link to="/trust-policy" className="text-primary hover:text-primary/80">
+            Trust Policy
           </Link>
         </p>
       </div>

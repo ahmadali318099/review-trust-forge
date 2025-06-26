@@ -2,7 +2,7 @@
 import Layout from '@/components/Layout';
 import Sidebar from '@/components/Sidebar';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
-import { BarChart3, TrendingUp, DollarSign, Users, Download, Calendar } from 'lucide-react';
+import { BarChart3, TrendingUp, DollarSign, Users, Download, Calendar, Shield, CheckCircle, AlertTriangle } from 'lucide-react';
 
 const VendorAnalytics = () => {
   return (
@@ -15,8 +15,8 @@ const VendorAnalytics = () => {
             {/* Header */}
             <div className="flex items-center justify-between mb-8">
               <div>
-                <h1 className="text-3xl font-bold text-white mb-2">Analytics Dashboard</h1>
-                <p className="text-gray-400">Track your sales performance and customer insights</p>
+                <h1 className="text-3xl font-bold text-white mb-2">Trust Analytics Dashboard</h1>
+                <p className="text-gray-400">Monitor your sales performance and review authenticity metrics</p>
               </div>
               
               <div className="flex items-center space-x-2">
@@ -48,11 +48,11 @@ const VendorAnalytics = () => {
                 <CardContent className="p-6">
                   <div className="flex items-center justify-between">
                     <div>
-                      <p className="text-gray-400 text-sm">Orders</p>
+                      <p className="text-gray-400 text-sm">Verified Reviews</p>
                       <p className="text-2xl font-bold text-white">234</p>
-                      <p className="text-green-400 text-sm">+8% from last month</p>
+                      <p className="text-green-400 text-sm">100% authentic</p>
                     </div>
-                    <BarChart3 className="h-8 w-8 text-blue-400" />
+                    <Shield className="h-8 w-8 text-blue-400" />
                   </div>
                 </CardContent>
               </Card>
@@ -61,11 +61,11 @@ const VendorAnalytics = () => {
                 <CardContent className="p-6">
                   <div className="flex items-center justify-between">
                     <div>
-                      <p className="text-gray-400 text-sm">Customers</p>
-                      <p className="text-2xl font-bold text-white">189</p>
-                      <p className="text-green-400 text-sm">+15% from last month</p>
+                      <p className="text-gray-400 text-sm">Trust Score</p>
+                      <p className="text-2xl font-bold text-white">9.8/10</p>
+                      <p className="text-green-400 text-sm">Excellent rating</p>
                     </div>
-                    <Users className="h-8 w-8 text-purple-400" />
+                    <CheckCircle className="h-8 w-8 text-green-400" />
                   </div>
                 </CardContent>
               </Card>
@@ -74,11 +74,11 @@ const VendorAnalytics = () => {
                 <CardContent className="p-6">
                   <div className="flex items-center justify-between">
                     <div>
-                      <p className="text-gray-400 text-sm">Conversion</p>
-                      <p className="text-2xl font-bold text-white">12.3%</p>
-                      <p className="text-green-400 text-sm">+2.1% from last month</p>
+                      <p className="text-gray-400 text-sm">Blocked Fakes</p>
+                      <p className="text-2xl font-bold text-white">47</p>
+                      <p className="text-yellow-400 text-sm">AI detection active</p>
                     </div>
-                    <TrendingUp className="h-8 w-8 text-yellow-400" />
+                    <AlertTriangle className="h-8 w-8 text-yellow-400" />
                   </div>
                 </CardContent>
               </Card>
@@ -88,13 +88,13 @@ const VendorAnalytics = () => {
             <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 mb-8">
               <Card className="bg-gray-900/50 border-gray-800">
                 <CardHeader>
-                  <CardTitle className="text-white">Revenue Trend</CardTitle>
+                  <CardTitle className="text-white">Revenue & Trust Trend</CardTitle>
                 </CardHeader>
                 <CardContent>
                   <div className="h-64 bg-gray-800/50 rounded-xl flex items-center justify-center">
                     <div className="text-center">
                       <BarChart3 className="h-12 w-12 text-green-400 mx-auto mb-4" />
-                      <p className="text-gray-400">Revenue chart would go here</p>
+                      <p className="text-gray-400">Revenue and trust score correlation chart</p>
                     </div>
                   </div>
                 </CardContent>
@@ -102,13 +102,13 @@ const VendorAnalytics = () => {
 
               <Card className="bg-gray-900/50 border-gray-800">
                 <CardHeader>
-                  <CardTitle className="text-white">Product Performance</CardTitle>
+                  <CardTitle className="text-white">Review Authenticity Analysis</CardTitle>
                 </CardHeader>
                 <CardContent>
                   <div className="h-64 bg-gray-800/50 rounded-xl flex items-center justify-center">
                     <div className="text-center">
-                      <TrendingUp className="h-12 w-12 text-blue-400 mx-auto mb-4" />
-                      <p className="text-gray-400">Product performance chart would go here</p>
+                      <Shield className="h-12 w-12 text-blue-400 mx-auto mb-4" />
+                      <p className="text-gray-400">AI detection performance metrics</p>
                     </div>
                   </div>
                 </CardContent>
@@ -118,18 +118,23 @@ const VendorAnalytics = () => {
             {/* Top Products Table */}
             <Card className="bg-gray-900/50 border-gray-800">
               <CardHeader>
-                <CardTitle className="text-white">Top Performing Products</CardTitle>
+                <CardTitle className="text-white">Top Performing Products (Verified Reviews)</CardTitle>
               </CardHeader>
               <CardContent>
                 <div className="space-y-4">
                   {[
-                    { name: 'Web Development Course', sales: 89, revenue: '$8,811', conversion: '15.2%' },
-                    { name: 'Digital Marketing Guide', sales: 67, revenue: '$3,283', conversion: '12.8%' },
-                    { name: 'Design Assets Bundle', sales: 45, revenue: '$6,705', conversion: '18.4%' },
+                    { name: 'Web Development Course', sales: 89, revenue: '$8,811', trustScore: '9.8/10', verified: true },
+                    { name: 'Digital Marketing Guide', sales: 67, revenue: '$3,283', trustScore: '9.5/10', verified: true },
+                    { name: 'Design Assets Bundle', sales: 45, revenue: '$6,705', trustScore: '9.9/10', verified: true },
                   ].map((product, index) => (
                     <div key={index} className="flex items-center justify-between p-4 bg-gray-800/50 rounded-xl">
                       <div className="flex-1">
-                        <h4 className="font-medium text-white">{product.name}</h4>
+                        <div className="flex items-center space-x-2">
+                          <h4 className="font-medium text-white">{product.name}</h4>
+                          {product.verified && (
+                            <CheckCircle className="h-4 w-4 text-green-400" />
+                          )}
+                        </div>
                       </div>
                       <div className="flex items-center space-x-8 text-sm">
                         <div className="text-center">
@@ -141,8 +146,8 @@ const VendorAnalytics = () => {
                           <p className="text-green-400 font-medium">{product.revenue}</p>
                         </div>
                         <div className="text-center">
-                          <p className="text-gray-400">Conversion</p>
-                          <p className="text-blue-400 font-medium">{product.conversion}</p>
+                          <p className="text-gray-400">Trust Score</p>
+                          <p className="text-blue-400 font-medium">{product.trustScore}</p>
                         </div>
                       </div>
                     </div>
