@@ -115,7 +115,7 @@ const Landing = () => {
 
   return (
     <div className="min-h-screen bg-black text-white overflow-hidden">
-      <Navbar scrolled={scrolled} />
+      <Navbar />
       
       {/* Hero Section */}
       <section className="relative min-h-screen flex items-center justify-center overflow-hidden">

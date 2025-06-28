@@ -1,3 +1,4 @@
+
 import { useState } from 'react';
 import { Link } from 'react-router-dom';
 import { Button } from '@/components/ui/button';
@@ -15,7 +16,7 @@ interface NavbarProps {
 
 const Navbar = ({ userRole, userName }: NavbarProps) => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
-  const { cartItems } = useCart();
+  const { totalItems } = useCart();
   const { logout } = useAuth();
 
   const handleLogout = () => {
