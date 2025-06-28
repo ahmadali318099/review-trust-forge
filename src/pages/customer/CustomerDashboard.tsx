@@ -1,4 +1,3 @@
-
 import Layout from '@/components/Layout';
 import Sidebar from '@/components/Sidebar';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
@@ -57,7 +56,7 @@ const CustomerDashboard = () => {
   ];
 
   return (
-    <Layout userRole="customer" userName="John Doe" cartItems={3} showFooter={false}>
+    <Layout userRole="customer" userName="John Doe" showFooter={false}>
       <div className="flex min-h-screen">
         <Sidebar userRole="customer" />
         

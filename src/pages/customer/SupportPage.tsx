@@ -99,7 +99,7 @@ const SupportPage = () => {
   };
 
   return (
-    <Layout userRole="customer" userName="John Doe" cartItems={3} showFooter={false}>
+    <Layout userRole="customer" userName="John Doe" showFooter={false}>
       <div className="flex min-h-screen">
         <Sidebar userRole="customer" />
         
