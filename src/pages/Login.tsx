@@ -1,6 +1,6 @@
 
 import { useState } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, Navigate } from 'react-router-dom';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Input } from '@/components/ui/input';
@@ -8,16 +8,28 @@ import { Label } from '@/components/ui/label';
 import { Badge } from '@/components/ui/badge';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { Eye, EyeOff, User, Settings, Users } from 'lucide-react';
+import { useAuth } from '@/contexts/AuthContext';
+import { toast } from 'sonner';
 
 const Login = () => {
   const [showPassword, setShowPassword] = useState(false);
   const [activeRole, setActiveRole] = useState('customer');
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
+  const { user, login, isLoading } = useAuth();
+
+  // Redirect if already logged in
+  if (user) {
+    const redirectPath = user.role === 'admin' ? '/admin/dashboard' : 
+                        user.role === 'vendor' ? '/vendor/dashboard' : '/dashboard';
+    return <Navigate to={redirectPath} replace />;
+  }
 
   const roleInfo = {
     customer: {
       icon: <User className="h-4 w-4" />,
       title: 'Customer Login',
-      description: 'Access verified reviews and shop with confidence',
+      description: 'Access AI-verified reviews and shop with confidence',
       color: 'from-blue-500 to-blue-400'
     },
     vendor: {
@@ -31,6 +43,22 @@ const Login = () => {
       title: 'Admin Login',
       description: 'Monitor AI detection and moderate platform trust',
       color: 'from-destructive to-red-400'
+    }
+  };
+
+  const handleSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+    
+    if (!email || !password) {
+      toast.error('Please fill in all fields');
+      return;
+    }
+
+    try {
+      await login(email, password, activeRole);
+      toast.success(`Welcome! Redirecting to ${activeRole} dashboard...`);
+    } catch (error) {
+      toast.error('Login failed. Please try again.');
     }
   };
 
@@ -76,14 +104,17 @@ const Login = () => {
               </TabsList>
 
               <TabsContent value={activeRole} className="mt-6">
-                <form className="space-y-4">
+                <form onSubmit={handleSubmit} className="space-y-4">
                   <div className="space-y-2">
                     <Label htmlFor="email">Email</Label>
                     <Input
                       id="email"
                       type="email"
                       placeholder="Enter your email"
+                      value={email}
+                      onChange={(e) => setEmail(e.target.value)}
                       className="bg-background/50 border-border/50 focus:border-primary"
+                      required
                     />
                   </div>
 
@@ -94,7 +125,10 @@ const Login = () => {
                         id="password"
                         type={showPassword ? 'text' : 'password'}
                         placeholder="Enter your password"
+                        value={password}
+                        onChange={(e) => setPassword(e.target.value)}
                         className="bg-background/50 border-border/50 focus:border-primary pr-10"
+                        required
                       />
                       <Button
                         type="button"
@@ -118,8 +152,12 @@ const Login = () => {
                     </Link>
                   </div>
 
-                  <Button className="w-full bg-primary hover:bg-primary/90 text-white font-semibold py-3 rounded-xl">
-                    Sign In
+                  <Button 
+                    type="submit" 
+                    className="w-full bg-primary hover:bg-primary/90 text-white font-semibold py-3 rounded-xl"
+                    disabled={isLoading}
+                  >
+                    {isLoading ? 'Signing In...' : 'Sign In'}
                   </Button>
                 </form>
               </TabsContent>
@@ -150,8 +188,8 @@ const Login = () => {
             Terms of Service
           </Link>{' '}
           and{' '}
-          <Link to="/trust-policy" className="text-primary hover:text-primary/80">
-            Trust Policy
+          <Link to="/privacy" className="text-primary hover:text-primary/80">
+            Privacy Policy
           </Link>
         </p>
       </div>

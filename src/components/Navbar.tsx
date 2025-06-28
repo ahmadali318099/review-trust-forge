@@ -1,146 +1,170 @@
-import { useState, useEffect } from 'react';
-import { Link, useLocation } from 'react-router-dom';
+import { useState } from 'react';
+import { Link } from 'react-router-dom';
 import { Button } from '@/components/ui/button';
-import { Badge } from '@/components/ui/badge';
-import { ShoppingCart, User, Search, Menu, X } from 'lucide-react';
+import { Menu } from 'lucide-react';
+import { useCart } from './CartContext';
 import CartDropdown from './CartDropdown';
+import { useAuth } from '@/contexts/AuthContext';
+import { LogOut } from 'lucide-react';
+import { toast } from 'sonner';
 
 interface NavbarProps {
-  scrolled?: boolean;
   userRole?: 'customer' | 'vendor' | 'admin' | null;
   userName?: string;
-  cartItems?: number;
 }
 
-const Navbar = ({ scrolled = false, userRole = null, userName, cartItems = 0 }: NavbarProps) => {
-  const location = useLocation();
-  const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+const Navbar = ({ userRole, userName }: NavbarProps) => {
+  const [isMenuOpen, setIsMenuOpen] = useState(false);
+  const { cartItems } = useCart();
+  const { logout } = useAuth();
 
-  const isActive = (path: string) => location.pathname === path;
-
-  const navItems = [
-    { name: 'Home', path: '/' },
-    { name: 'Products', path: '/products' },
-    { name: 'About', path: '/about' },
-    { name: 'Contact', path: '/contact' },
-    { name: 'FAQ', path: '/faq' },
-  ];
+  const handleLogout = () => {
+    logout();
+    toast.success('Logged out successfully');
+  };
 
   return (
-    <nav className={`fixed top-0 w-full z-50 transition-all duration-300 ${
-      scrolled 
-        ? 'bg-black/95 backdrop-blur-md border-b border-gray-800/50' 
-        : 'bg-transparent'
-    }`}>
-      <div className="container mx-auto px-6 py-4">
-        <div className="flex items-center justify-between">
-          {/* Logo */}
-          <Link to="/" className="flex items-center space-x-3">
-            <div className="w-10 h-10 bg-gradient-to-br from-green-500 to-green-400 rounded-xl flex items-center justify-center">
-              <span className="text-black font-bold text-lg">AI</span>
-            </div>
-            <span className="font-bold text-2xl bg-gradient-to-r from-white to-green-400 bg-clip-text text-transparent">
-              TrustMarket
-            </span>
-          </Link>
+    <nav className="fixed top-0 left-0 right-0 bg-black/80 backdrop-blur-md border-b border-gray-800 z-50">
+      <div className="container max-w-7xl mx-auto px-4 py-3 flex items-center justify-between">
+        {/* Logo */}
+        <Link to="/" className="inline-flex items-center space-x-2">
+          <div className="w-8 h-8 bg-gradient-to-br from-primary to-secondary rounded-xl flex items-center justify-center">
+            <span className="text-white font-bold">AI</span>
+          </div>
+          <span className="font-sora font-bold text-xl text-gradient">
+            TrustMarket
+          </span>
+        </Link>
 
-          {/* Desktop Navigation */}
-          <div className="hidden md:flex items-center space-x-8">
-            {navItems.map((item) => (
-              <Link
-                key={item.path}
-                to={item.path}
-                className={`text-sm font-medium transition-all duration-300 hover:text-green-400 relative group ${
-                  isActive(item.path) ? 'text-green-400' : 'text-gray-300'
-                }`}
-              >
-                {item.name}
-                <span className="absolute -bottom-1 left-0 w-0 h-0.5 bg-green-400 transition-all duration-300 group-hover:w-full"></span>
+        {/* Navigation Links */}
+        <div className="hidden md:flex items-center space-x-8">
+          {!userRole ? (
+            <>
+              <Link to="/" className="text-gray-300 hover:text-green-400 transition-colors">
+                Home
               </Link>
-            ))}
-          </div>
-
-          {/* Right Side */}
-          <div className="flex items-center space-x-4">
-            {/* Search */}
-            <Button 
-              variant="ghost" 
-              size="sm" 
-              className="hidden md:flex text-gray-300 hover:text-green-400 hover:bg-green-500/10"
-            >
-              <Search className="h-5 w-5" />
-            </Button>
-
-            {/* Cart */}
-            <CartDropdown />
-
-            {userRole ? (
-              /* Profile Dropdown */
-              <Button 
-                variant="ghost" 
-                className="flex items-center space-x-2 text-gray-300 hover:text-green-400 hover:bg-green-500/10"
+              <Link to="/about" className="text-gray-300 hover:text-green-400 transition-colors">
+                About
+              </Link>
+              <Link to="/contact" className="text-gray-300 hover:text-green-400 transition-colors">
+                Contact
+              </Link>
+              <Link to="/faq" className="text-gray-300 hover:text-green-400 transition-colors">
+                FAQ
+              </Link>
+            </>
+          ) : (
+            <>
+              <Link 
+                to={userRole === 'admin' ? '/admin/dashboard' : userRole === 'vendor' ? '/vendor/dashboard' : '/dashboard'} 
+                className="text-gray-300 hover:text-green-400 transition-colors"
               >
-                <div className="w-8 h-8 bg-gradient-to-br from-green-500 to-green-400 rounded-full flex items-center justify-center">
-                  <User className="h-4 w-4 text-black" />
-                </div>
-                <span className="hidden md:block text-sm font-medium">
-                  {userName || 'User'}
-                </span>
-              </Button>
-            ) : (
-              <div className="flex items-center space-x-3">
-                <Link to="/login">
-                  <Button 
-                    variant="ghost" 
-                    size="sm"
-                    className="text-gray-300 hover:text-green-400 hover:bg-green-500/10"
-                  >
-                    Login
-                  </Button>
+                Dashboard
+              </Link>
+              {userRole === 'customer' && (
+                <Link to="/products" className="text-gray-300 hover:text-green-400 transition-colors">
+                  Products
                 </Link>
-                <Link to="/register">
-                  <Button 
-                    size="sm" 
-                    className="bg-green-500 hover:bg-green-400 text-black font-semibold transition-all duration-300 hover:shadow-[0_0_20px_rgba(34,197,94,0.4)] hover:scale-105"
-                  >
-                    Join Now
-                  </Button>
-                </Link>
-              </div>
-            )}
-
-            {/* Mobile Menu Button */}
-            <Button
-              variant="ghost"
-              size="sm"
-              className="md:hidden text-gray-300 hover:text-green-400"
-              onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
-            >
-              {mobileMenuOpen ? <X className="h-5 w-5" /> : <Menu className="h-5 w-5" />}
-            </Button>
-          </div>
+              )}
+            </>
+          )}
         </div>
 
-        {/* Mobile Menu */}
-        {mobileMenuOpen && (
-          <div className="md:hidden mt-4 py-4 border-t border-gray-800/50 animate-fade-in">
-            <div className="flex flex-col space-y-4">
-              {navItems.map((item) => (
-                <Link
-                  key={item.path}
-                  to={item.path}
-                  className={`text-sm font-medium transition-colors hover:text-green-400 ${
-                    isActive(item.path) ? 'text-green-400' : 'text-gray-300'
-                  }`}
-                  onClick={() => setMobileMenuOpen(false)}
-                >
-                  {item.name}
-                </Link>
-              ))}
+        {/* Right Section */}
+        <div className="flex items-center space-x-4">
+          {userRole === 'customer' && <CartDropdown />}
+          
+          {!userRole ? (
+            <div className="flex items-center space-x-3">
+              <Link to="/login">
+                <Button variant="ghost" className="text-gray-300 hover:text-white hover:bg-gray-800">
+                  Sign In
+                </Button>
+              </Link>
+              <Link to="/register">
+                <Button className="bg-green-500 hover:bg-green-400 text-black font-semibold">
+                  Join Now
+                </Button>
+              </Link>
             </div>
-          </div>
-        )}
+          ) : (
+            <div className="flex items-center space-x-3">
+              <span className="text-gray-300 text-sm">
+                Welcome, {userName || 'User'}
+              </span>
+              <Button 
+                variant="ghost" 
+                size="sm"
+                onClick={handleLogout}
+                className="text-gray-300 hover:text-white hover:bg-gray-800"
+              >
+                <LogOut className="h-4 w-4 mr-1" />
+                Logout
+              </Button>
+            </div>
+          )}
+
+          {/* Mobile menu button */}
+          <Button
+            variant="ghost"
+            size="sm"
+            className="md:hidden text-gray-300"
+            onClick={() => setIsMenuOpen(!isMenuOpen)}
+          >
+            <Menu className="h-5 w-5" />
+          </Button>
+        </div>
       </div>
+
+      {/* Mobile Menu */}
+      {isMenuOpen && (
+        <div className="md:hidden absolute top-full left-0 right-0 bg-gray-900/90 backdrop-blur-md border-b border-gray-800 py-4 px-6 flex flex-col items-center">
+          {!userRole ? (
+            <>
+              <Link to="/" className="block py-2 text-gray-300 hover:text-green-400 transition-colors">
+                Home
+              </Link>
+              <Link to="/about" className="block py-2 text-gray-300 hover:text-green-400 transition-colors">
+                About
+              </Link>
+              <Link to="/contact" className="block py-2 text-gray-300 hover:text-green-400 transition-colors">
+                Contact
+              </Link>
+              <Link to="/faq" className="block py-2 text-gray-300 hover:text-green-400 transition-colors">
+                FAQ
+              </Link>
+              <Link to="/login" className="block py-2 text-gray-300 hover:text-white hover:bg-gray-800 rounded-md">
+                Sign In
+              </Link>
+              <Link to="/register" className="block py-2 bg-green-500 hover:bg-green-400 text-black font-semibold rounded-md">
+                Join Now
+              </Link>
+            </>
+          ) : (
+            <>
+              <Link 
+                to={userRole === 'admin' ? '/admin/dashboard' : userRole === 'vendor' ? '/vendor/dashboard' : '/dashboard'} 
+                className="block py-2 text-gray-300 hover:text-green-400 transition-colors"
+              >
+                Dashboard
+              </Link>
+              {userRole === 'customer' && (
+                <Link to="/products" className="block py-2 text-gray-300 hover:text-green-400 transition-colors">
+                  Products
+                </Link>
+              )}
+              <Button 
+                variant="ghost" 
+                size="sm"
+                onClick={handleLogout}
+                className="block py-2 text-gray-300 hover:text-white hover:bg-gray-800 rounded-md"
+              >
+                Logout
+              </Button>
+            </>
+          )}
+        </div>
+      )}
     </nav>
   );
 };
